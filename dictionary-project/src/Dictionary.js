@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Results from "./Results";
 import axios from "axios";
-
 import "./Dictionary.css";
 
 export default function Dictionary() {
@@ -15,6 +14,8 @@ export default function Dictionary() {
 
   function search(event) {
     event.preventDefault();
+
+    // documentation: https://dictionaryapi.dev/
     const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
     axios.get(apiUrl).then(handleResponse);
   }
@@ -41,15 +42,15 @@ export default function Dictionary() {
             Search
           </button>
         </form>
-        <div>
+        <div className="Languages">
           <button className="btn btn-outline-dark">Eng</button>
+          {/* another components */}
           <button className="btn btn-outline-dark">Kor</button>
           <button className="btn btn-outline-dark">Chi</button>
         </div>
       </nav>
       <div className="Main">
         <Results result={results} />
-        {/* // read API */}
       </div>
       <hr />
     </div>
