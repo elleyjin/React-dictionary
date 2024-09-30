@@ -1,5 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
+import Results from "./Results";
+import axios from "axios";
+
+import "./Dictionary.css";
 
 export default function Dictionary() {
-  return "Hello from Dictionary";
+  const [results, setResults] = useState(null);
+  const [word, setWord] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    search();
+  }
+
+  function handleResponse(response) {
+    // setResults(response.data);
+    console.log(response.data);
+  }
+
+  function handleWordChange(event) {
+    setWord(event.target.value);
+    alert({ word });
+  }
+
+  function search() {
+    const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+
+  return (
+    <div className="Dictionary container-fluid">
+      <nav className="navbar navbar-light bg-light ">
+        <form className="form-inline d-flex" onSubmit={handleSubmit}>
+          <input
+            className="form-control mr-sm-2 "
+            type="search"
+            placeholder="Search word"
+            onChange={handleWordChange}
+          ></input>
+          <button
+            className="btn btn-outline-dark my-2 my-sm-0"
+            type="submit"
+            placeholder="search"
+          >
+            Search
+          </button>
+        </form>
+        <div>
+          <button className="btn btn-outline-dark">Eng</button>
+          <button className="btn btn-outline-dark">Kor</button>
+          <button className="btn btn-outline-dark">Chi</button>
+        </div>
+      </nav>
+      <div className="Main">
+        <Results result={results} />
+        {/* // read API */}
+      </div>
+      <hr />
+    </div>
+  );
 }
