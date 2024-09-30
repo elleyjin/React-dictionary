@@ -8,30 +8,25 @@ export default function Dictionary() {
   const [results, setResults] = useState(null);
   const [word, setWord] = useState("");
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    search();
+  function handleResponse(response) {
+    console.log(response.data[0]);
+    setResults(response.data[0]);
   }
 
-  function handleResponse(response) {
-    // setResults(response.data);
-    console.log(response.data);
+  function search(event) {
+    event.preventDefault();
+    const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+    axios.get(apiUrl).then(handleResponse);
   }
 
   function handleWordChange(event) {
     setWord(event.target.value);
-    alert({ word });
-  }
-
-  function search() {
-    const apiUrl = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
-    axios.get(apiUrl).then(handleResponse);
   }
 
   return (
     <div className="Dictionary container-fluid">
       <nav className="navbar navbar-light bg-light ">
-        <form className="form-inline d-flex" onSubmit={handleSubmit}>
+        <form className="form-inline d-flex" onSubmit={search}>
           <input
             className="form-control mr-sm-2 "
             type="search"
